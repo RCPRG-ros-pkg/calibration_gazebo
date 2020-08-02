@@ -7,8 +7,8 @@
         <xacro:property name="size" value="0.03"/>  
         
         <!-- Chessboard size, have to be even numbers -->
-        <xacro:property name="r" value="9"/>  
-        <xacro:property name="c" value="7"/> 
+        <xacro:property name="r" value="7"/>  
+        <xacro:property name="c" value="10"/> 
         
         <static>true</static>
         
@@ -33,13 +33,13 @@
                 </geometry>
                 
                 <!-- white = odd x+y -->
-                <xacro:if value="${(x+y) in [0,2,4,6,8,10,12,14,16,18,20,22,24,26]}">
-                    <xacro:color r="1" g="1" b="1"/>            
-                </xacro:if>
-                <!-- black = even x+y  -->
                 <xacro:unless value="${(x+y) in [0,2,4,6,8,10,12,14,16,18,20,22,24,26]}">
+                    <xacro:color r="1" g="1" b="1"/>            
+                </xacro:unless>
+                <!-- black = even x+y  -->
+                <xacro:if value="${(x+y) in [0,2,4,6,8,10,12,14,16,18,20,22,24,26]}">
                     <xacro:color r="0" g="0" b="0"/>
-                </xacro:unless>        
+                </xacro:if>        
                 
             </visual>
             
@@ -61,7 +61,7 @@
             
             <!-- Back of the landmark not to mess with small Z offset -->
             <visual name="back">
-                <pose>0 0 ${3*d/2} 0 0 0</pose>
+                <pose>0 0 -${d/2} 0 0 0</pose>
                 <geometry>
                     <box>
                         <size>${size*(r+2)} ${size*(c+2)} ${d}</size>

@@ -77,8 +77,9 @@ if __name__ == '__main__':
     # spawn model aligned at 0.5m in front of camera
     landmark_pose = Pose()
     landmark_pose.position.x = 0.5
-    landmark_pose.orientation.x = landmark_pose.orientation.y = landmark_pose.orientation.z = landmark_pose.orientation.w = 1
-    M = Homogeneous(listener.pose) * Homogeneous(landmark_pose)
+    landmark_pose.orientation.x = landmark_pose.orientation.y = landmark_pose.orientation.z = 1
+    landmark_pose.orientation.w = 1
+    M = Homogeneous(listener.pose) * Homogeneous(landmark_pose) * matrix(euler_matrix(3.14151, 0, 0))
     
     # get XYZ - RPY
     label = ['x','y','z','R','P','Y']
