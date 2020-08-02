@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <arg name="paused" default="false" />
+
+  <!-- Launch Gazebo with empty world-->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="gui" value="true" />
+    <arg name="paused" value="$(arg paused)" />
+  </include>
+
+    <node name="cam_sp" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-sdf -model camera -file $(find calibration_gazebo)/sdf/perspective.sdf -x 0 -y 0. -z 0 -R 1.5707963 -P -1.5707963" />
+
+  <include file="$(find calibration_gazebo)/launch/landmark.launch">
+  </include>
+
+  <node name="image_view" pkg="rqt_image_view" type="rqt_image_view" />
+
+  <node name="camera_delay" pkg="calibration_gazebo" type="camera_delay.py">
+    <param name="latency" value="0.5" />
+  </node>
+
+  <node name="detector" pkg="tuw_checkerboard" type="tuw_checkerboard_node">
+	  <remap from="/image" to="/camera_delay/image" />
+	  <remap from="/camera_info" to="/camera_delay/camera_info" />
+    <param name="checkerboard_columns" value="9" />
+    <param name="checkerboard_rows" value="6" />
+    <param name="publish_pose" value="true" />
+  </node>
+
+
+</launch>

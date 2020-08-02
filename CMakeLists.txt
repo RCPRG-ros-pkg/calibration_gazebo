@@ -7,6 +7,7 @@ project(calibration_gazebo)
 find_package(catkin REQUIRED COMPONENTS
   gazebo_msgs
   geometry_msgs
+  dynamic_reconfigure
 )
 
 #############
@@ -43,3 +44,13 @@ find_package(catkin REQUIRED COMPONENTS
 #   # myfile2
 #   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 # )
+
+
+#add dynamic reconfigure api
+generate_dynamic_reconfigure_options(
+  cfg/CameraDelay.cfg
+  #...
+)
+
+# make sure configure headers are built before any node using them
+#add_dependencies(example_node ${PROJECT_NAME}_gencfg)
